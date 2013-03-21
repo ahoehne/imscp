@@ -1860,6 +1860,6 @@ class iMSCP_Update_Database extends iMSCP_Update
 			") VALUES ( " .
 			"'PHPINI_LOG_ERRORS',  'off' " .
 			");";
-			return $sqlUpd;
+		return $sqlUpd;
 	}
 }

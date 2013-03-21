@@ -1841,10 +1841,10 @@ class iMSCP_Update_Database extends iMSCP_Update
 	protected function _databaseUpdate_123()
 	{
 		return array(
-			"ALTER TABLE INGORE `php_ini` ADD  `log_errors` VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`;",
-			"ALTER TABLE INGORE `domain` ADD  `phpini_perm_log_errors` VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`;",
-			"ALTER TABLE INGORE `reseller_props` ADD  `php_ini_al_log_errors` VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`;",
-			"INSERT INTO INGORE `imscp`.`config` ( " .
+			"ALTER INGORE TABLE  `php_ini` ADD  `log_errors` VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`;",
+			"ALTER INGORE TABLE  `domain` ADD  `phpini_perm_log_errors` VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`;",
+			"ALTER INGORE TABLE  `reseller_props` ADD  `php_ini_al_log_errors` VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`;",
+			"INSERT INGORE INTO  `imscp`.`config` ( " .
 			"`name` , " .
 			"`value` " .
 			") VALUES ( " .

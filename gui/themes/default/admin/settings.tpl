@@ -211,6 +211,15 @@
                     </div>
                 </div>
                 <div class="odd">
+                    <div class="left"><label for="phpini_log_errors">{TR_PHPINI_LOG_ERRORS}</label></div>
+                    <div class="right">
+                        <select name="phpini_log_errors" id="phpini_log_errors">
+                            <option value="off" {PHPINI_LOG_ERRORS_OFF}>{TR_DISABLED}</option>
+                            <option value="on" {PHPINI_LOG_ERRORS_ON}>{TR_ENABLED}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="odd">
                     <div class="left"><label for="phpini_display_errors">{TR_PHPINI_DISPLAY_ERRORS}</label></div>
                     <div class="right">
                         <select name="phpini_display_errors" id="phpini_display_errors">

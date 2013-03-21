@@ -126,7 +126,7 @@ class iMSCP_PHPini
 
 	/**
 	 * Implements singleton design pattern.
-	 * 
+	 *
 	 * @static
 	 * @return iMSCP_PHPini
 	 */
@@ -152,6 +152,7 @@ class iMSCP_PHPini
 
 		// Default permissions on PHP directives
 		$this->_phpiniData['phpiniAllowUrlFopen'] = $this->_cfg->PHPINI_ALLOW_URL_FOPEN;
+		$this->_phpiniData['phpiniLogErrors'] = $this->_cfg->PHPINI_LOG_ERRORS;
 		$this->_phpiniData['phpiniDisplayErrors'] = $this->_cfg->PHPINI_DISPLAY_ERRORS;
 		$this->_phpiniData['phpiniErrorReporting'] = $this->_cfg->PHPINI_ERROR_REPORTING;
 		$this->_phpiniData['phpiniDisableFunctions'] = $this->_cfg->PHPINI_DISABLE_FUNCTIONS;
@@ -181,6 +182,7 @@ class iMSCP_PHPini
 			$this->_phpiniData['phpiniSystem'] = 'yes';
 
 			$this->_phpiniData['phpiniAllowUrlFopen'] = $stmt->fields('allow_url_fopen');
+			$this->_phpiniData['phpiniLogErrors'] = $stmt->fields('log_errors');
 			$this->_phpiniData['phpiniDisplayErrors'] = $stmt->fields('display_errors');
 			$this->_phpiniData['phpiniErrorReporting'] = $stmt->fields('error_reporting');
 			$this->_phpiniData['phpiniDisableFunctions'] = $stmt->fields('disable_functions');
@@ -209,6 +211,7 @@ class iMSCP_PHPini
 		$query = "
 			SELECT
 				`php_ini_system`, `php_ini_al_disable_functions`, `php_ini_al_allow_url_fopen`,
+				`php_ini_al_log_errors`,
 				`php_ini_al_display_errors`, `php_ini_max_post_max_size`, `php_ini_max_upload_max_filesize`,
 				`php_ini_max_max_execution_time`, `php_ini_max_max_input_time`, `php_ini_max_memory_limit`
 			FROM
@@ -222,6 +225,7 @@ class iMSCP_PHPini
 			// Permissions on PHP directives
 			$this->_phpiniRePerm['phpiniSystem'] = 'yes';
 			$this->_phpiniRePerm['phpiniAllowUrlFopen'] = $stmt->fields('php_ini_al_allow_url_fopen');
+			$this->_phpiniRePerm['phpiniLogErrors'] = $stmt->fields('php_ini_al_log_errors');
 			$this->_phpiniRePerm['phpiniDisplayErrors'] = $stmt->fields('php_ini_al_display_errors');
 			$this->_phpiniRePerm['phpiniDisableFunctions'] = $stmt->fields('php_ini_al_disable_functions');
 
@@ -248,6 +252,7 @@ class iMSCP_PHPini
 		// Default permissions on PHP directives
 		$this->_phpiniRePerm['phpiniSystem'] = 'no';
 		$this->_phpiniRePerm['phpiniAllowUrlFopen'] = 'no';
+		$this->_phpiniRePerm['phpiniLogErrors'] = 'no';
 		$this->_phpiniRePerm['phpiniDisplayErrors'] = 'no';
 		$this->_phpiniRePerm['phpiniDisableFunctions'] = 'no';
 
@@ -367,7 +372,7 @@ class iMSCP_PHPini
 	{
 		if ($this->_phpiniRePerm['phpiniSystem'] == 'yes') {
 			if($key == 'phpiniSystem' ||
-			   in_array($key, array('phpiniAllowUrlFopen', 'phpiniDisplayErrors', 'phpiniDisableFunctions')
+			   in_array($key, array('phpiniAllowUrlFopen', 'phpiniLogErrors', 'phpiniDisplayErrors', 'phpiniDisableFunctions')
 			   ) && $this->_phpiniRePerm[$key] == 'yes'
 			) {
 				return true;
@@ -429,7 +434,7 @@ class iMSCP_PHPini
 				UPDATE
 					`php_ini`
 				SET
-					`status` = ?, `disable_functions` = ?, `allow_url_fopen` = ?, `display_errors` = ?,
+					`status` = ?, `disable_functions` = ?, `allow_url_fopen` = ?, `log_errors` = ?, `display_errors` = ?,
 					`error_reporting` = ?, `post_max_size` = ?, `upload_max_filesize` = ?, `max_execution_time` = ?,
 					`max_input_time` = ?, `memory_limit` = ?
 				WHERE
@@ -439,7 +444,8 @@ class iMSCP_PHPini
 				$query,
 				array(
 					$this->_cfg->ITEM_CHANGE_STATUS, $this->_phpiniData['phpiniDisableFunctions'],
-					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniDisplayErrors'],
+					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniLogErrors'],
+					$this->_phpiniData['phpiniDisplayErrors'],
 					$this->_phpiniData['phpiniErrorReporting'], $this->_phpiniData['phpiniPostMaxSize'],
 					$this->_phpiniData['phpiniUploadMaxFileSize'], $this->_phpiniData['phpiniMaxExecutionTime'],
 					$this->_phpiniData['phpiniMaxInputTime'], $this->_phpiniData['phpiniMemoryLimit'], $domainId
@@ -449,7 +455,7 @@ class iMSCP_PHPini
 			$query = "
 				INSERT INTO
 					`php_ini` (
-						`status`, `disable_functions`, `allow_url_fopen`, `display_errors`, `error_reporting`,
+						`status`, `disable_functions`, `allow_url_fopen`, `log_errors`, `display_errors`, `error_reporting`,
 						`post_max_size`, `upload_max_filesize`, `max_execution_time`, `max_input_time`, `memory_limit`,
 						`domain_id`
 				 ) VALUES (
@@ -460,7 +466,8 @@ class iMSCP_PHPini
 				$query,
 				array(
 					$this->_cfg->ITEM_ADD_STATUS, $this->_phpiniData['phpiniDisableFunctions'],
-					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniDisplayErrors'],
+					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniLogErrors'],
+					$this->_phpiniData['phpiniDisplayErrors'],
 					$this->_phpiniData['phpiniErrorReporting'], $this->_phpiniData['phpiniPostMaxSize'],
 					$this->_phpiniData['phpiniUploadMaxFileSize'], $this->_phpiniData['phpiniMaxExecutionTime'],
 					$this->_phpiniData['phpiniMaxInputTime'], $this->_phpiniData['phpiniMemoryLimit'], $domainId
@@ -508,7 +515,7 @@ class iMSCP_PHPini
 			UPDATE
 				`domain`
 			SET
-				`phpini_perm_system` = ?, `phpini_perm_allow_url_fopen` = ?, `phpini_perm_display_errors` = ?,
+				`phpini_perm_system` = ?, `phpini_perm_allow_url_fopen` = ?, `phpini_perm_log_errors` = ?, `phpini_perm_display_errors` = ?,
 				`phpini_perm_disable_functions` = ?
 			WHERE
 				`domain_id` = ?
@@ -517,7 +524,9 @@ class iMSCP_PHPini
 			$query,
 			array(
 				$this->_phpiniClPerm['phpiniSystem'], $this->_phpiniClPerm['phpiniAllowUrlFopen'],
-				$this->_phpiniClPerm['phpiniDisplayErrors'], $this->_phpiniClPerm['phpiniDisableFunctions'],
+				$this->_phpiniClPerm['phpiniLogErrors'],
+				$this->_phpiniClPerm['phpiniDisplayErrors'],
+				$this->_phpiniClPerm['phpiniDisableFunctions'],
 				$domainId
 			)
 		);
@@ -625,6 +634,7 @@ class iMSCP_PHPini
 	{
 		$phpiniDatatmp['phpiniSystem'] = 'no';
 		$phpiniDatatmp['phpiniAllowUrlFopen'] = $this->_cfg->PHPINI_ALLOW_URL_FOPEN;
+		$phpiniDatatmp['phpiniLogErrors'] = $this->_cfg->PHPINI_LOG_ERRORS;
 		$phpiniDatatmp['phpiniDisplayErrors'] = $this->_cfg->PHPINI_DISPLAY_ERRORS;
 		$phpiniDatatmp['phpiniErrorReporting'] = $this->_cfg->PHPINI_ERROR_REPORTING;
 		$phpiniDatatmp['phpiniDisableFunctions'] = $this->_cfg->PHPINI_DISABLE_FUNCTIONS;
@@ -646,6 +656,7 @@ class iMSCP_PHPini
 	{
 		$this->_phpiniClPerm['phpiniSystem'] = 'no';
 		$this->_phpiniClPerm['phpiniAllowUrlFopen'] = 'no';
+		$this->_phpiniClPerm['phpiniLogErrors'] = 'no';
 		$this->_phpiniClPerm['phpiniDisplayErrors'] = 'no';
 		$this->_phpiniClPerm['phpiniDisableFunctions'] = 'no';
 	}
@@ -660,7 +671,7 @@ class iMSCP_PHPini
 	{
 		$query = "
 			SELECT
-				`phpini_perm_system`, `phpini_perm_allow_url_fopen`, `phpini_perm_display_errors`,
+				`phpini_perm_system`, `phpini_perm_allow_url_fopen`, `phpini_perm_log_errors`, `phpini_perm_display_errors`,
 				`phpini_perm_disable_functions`
 			FROM
 				`domain`
@@ -672,6 +683,7 @@ class iMSCP_PHPini
 		if ($stmt->rowCount()) {
 			$this->_phpiniClPerm['phpiniSystem'] = $stmt->fields('phpini_perm_system');
 			$this->_phpiniClPerm['phpiniAllowUrlFopen'] = $stmt->fields('phpini_perm_allow_url_fopen');
+			$this->_phpiniClPerm['phpiniLogErrors'] = $stmt->fields('phpini_perm_log_errors');
 			$this->_phpiniClPerm['phpiniDisplayErrors'] = $stmt->fields('phpini_perm_display_errors');
 			$this->_phpiniClPerm['phpiniDisableFunctions'] = $stmt->fields('phpini_perm_disable_functions');
 
@@ -782,6 +794,10 @@ class iMSCP_PHPini
 			return true;
 		}
 
+		if ($key == 'phpiniLogErrors' && ($value == 'on' || $value == 'off')) {
+			return true;
+		}
+
 		if ($key == 'phpiniDisplayErrors' && ($value == 'on' || $value == 'off')) {
 			return true;
 		}
@@ -866,6 +882,10 @@ class iMSCP_PHPini
 			return true;
 		}
 
+		if ($key == 'phpiniLogErrors' && ($value === 'yes' || $value === 'no')) {
+			return true;
+		}
+
 		if ($key == 'phpiniDisplayErrors' && ($value === 'yes' || $value === 'no')) {
 			return true;
 		}
@@ -913,6 +933,10 @@ class iMSCP_PHPini
 		}
 
 		if ($key == 'phpiniAllowUrlFopen' && ($value === 'yes' || $value === 'no')) {
+			return true;
+		}
+
+		if ($key == 'phpiniLogErrors' && ($value === 'yes' || $value === 'no')) {
 			return true;
 		}
 

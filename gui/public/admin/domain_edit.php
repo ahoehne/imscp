@@ -438,21 +438,30 @@ function _admin_generateFeaturesForm($tpl, &$data)
 			$permissionsBlock = true;
 		}
 
+		if (!$phpEditor->checkRePerm('phpiniLogErrors')) {
+			$tplVars['PHP_EDITOR_LOG_ERRORS_BLOCK'] = '';
+		} else {
+			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
+			$tplVars['LOG_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
+			$tplVars['LOG_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
+			$permissionsBlock = true;
+		}
+
+		if (!$phpEditor->checkRePerm('phpiniLogErrors')) {
+			$tplVars['PHP_EDITOR_LOG_ERRORS_BLOCK'] = '';
+		} else {
+			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
+			$tplVars['LOG_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
+			$tplVars['Log_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
+			$permissionsBlock = true;
+		}
+
 		if (!$phpEditor->checkRePerm('phpiniDisplayErrors')) {
 			$tplVars['PHP_EDITOR_DISPLAY_ERRORS_BLOCK'] = '';
 		} else {
 			$tplVars['TR_CAN_EDIT_DISPLAY_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>display_errors</b>');
 			$tplVars['DISPLAY_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniDisplayErrors') == 'yes') ? $htmlChecked : '';
 			$tplVars['DISPLAY_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniDisplayErrors') == 'no') ? $htmlChecked : '';
-			$permissionsBlock = true;
-		}
-
-		if (!$phpEditor->checkRePerm('phpiniLogErrors')) {
-			$tplVars['PHP_EDITOR_DISPLAY_ERRORS_BLOCK'] = '';
-		} else {
-			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
-			$tplVars['LOG_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
-			$tplVars['Log_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
 			$permissionsBlock = true;
 		}
 

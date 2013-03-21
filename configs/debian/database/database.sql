@@ -83,6 +83,7 @@ INSERT IGNORE INTO `config` (`name`, `value`) VALUES
 ('PREVENT_EXTERNAL_LOGIN_CLIENT', '1'),
 ('DATABASE_REVISION', '122'),
 ('PHPINI_ALLOW_URL_FOPEN', 'off'),
+('PHPINI_LOG_ERRORS', 'off'),
 ('PHPINI_DISPLAY_ERRORS', 'off'),
 ('PHPINI_UPLOAD_MAX_FILESIZE', '10'),
 ('PHPINI_POST_MAX_SIZE', '10'),
@@ -155,6 +156,9 @@ CREATE TABLE IF NOT EXISTS `domain` (
   UNIQUE KEY `domain_name` (`domain_name`),
   KEY `i_domain_admin_id` (`domain_admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Tabelle fuer bisherige imscp Nutzer updaten
+ALTER TABLE IGNORE `domain` ADD  `phpini_perm_log_errors` VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`;
 
 -- --------------------------------------------------------
 
@@ -463,6 +467,9 @@ CREATE TABLE IF NOT EXISTS `php_ini` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- Tabelle fuer bisherige imscp User updaten
+ALTER TABLE IGNORE `php_ini` ADD  `log_errors` VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`;
+
 -- --------------------------------------------------------
 
 --
@@ -576,6 +583,9 @@ CREATE TABLE IF NOT EXISTS `reseller_props` (
   PRIMARY KEY `id` (`id`),
   KEY `reseller_id` (`reseller_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Tabelle fuer bisherige Mysql Nutzer updaten
+ALTER TABLE IGNORE `reseller_props` ADD  `php_ini_al_log_errors` VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`
 
 -- --------------------------------------------------------
 

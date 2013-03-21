@@ -338,6 +338,11 @@ sub buildHTTPDData
 				? $phpiniData->{$self->{'domain_id'}}->{'display_errors'}
 				: $rdata->{'PHPINI_DISPLAY_ERRORS'}->{'value'}
 		),
+		LOG_ERRORS => (
+			exists $phpiniData->{$self->{'domain_id'}}
+				? $phpiniData->{$self->{'domain_id'}}->{'log_errors'}
+				: $rdata->{'PHPINI_LOG_ERRORS'}->{'value'}
+		),
 		POST_MAX_SIZE => (
 			exists $phpiniData->{$self->{'domain_id'}}
 				? $phpiniData->{$self->{'domain_id'}}->{'post_max_size'}

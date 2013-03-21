@@ -345,6 +345,8 @@ sub buildHTTPDData
 			? $phpiniData->{$self->{'domain_id'}}->{'memory_limit'} : $rdata->{'PHPINI_MEMORY_LIMIT'}->{'value'},
 		ERROR_REPORTING => exists $phpiniData->{$self->{'domain_id'}}
 			? $phpiniData->{$self->{'domain_id'}}->{'error_reporting'} : $rdata->{'PHPINI_ERROR_REPORTING'}->{'value'},
+		LOG_ERRORS => exists $phpiniData->{$self->{'domain_id'}}
+			? $phpiniData->{$self->{'domain_id'}}->{'log_errors'} : $rdata->{'PHPINI_LOG_ERRORS'}->{'value'},
 		DISPLAY_ERRORS => exists $phpiniData->{$self->{'domain_id'}}
 			? $phpiniData->{$self->{'domain_id'}}->{'display_errors'} : $rdata->{'PHPINI_DISPLAY_ERRORS'}->{'value'},
 		POST_MAX_SIZE => exists $phpiniData->{$self->{'domain_id'}}

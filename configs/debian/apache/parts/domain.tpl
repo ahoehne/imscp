@@ -156,6 +156,7 @@
         php_admin_value max_input_time {MAX_INPUT_TIME}
         php_admin_value memory_limit "{MEMORY_LIMIT}M"
         php_value error_reporting {ERROR_REPORTING}
+        php_flag log_errors {LOG_ERRORS}
         php_flag display_errors {DISPLAY_ERRORS}
         php_admin_value post_max_size "{POST_MAX_SIZE}M"
         php_admin_value upload_max_filesize "{UPLOAD_MAX_FILESIZE}M"

@@ -219,7 +219,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="odd">
+                <div class="even">
                     <div class="left"><label for="phpini_display_errors">{TR_PHPINI_DISPLAY_ERRORS}</label></div>
                     <div class="right">
                         <select name="phpini_display_errors" id="phpini_display_errors">
@@ -228,7 +228,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="even">
+                <div class="odd">
                     <div class="left"><label for="phpini_error_reporting">{TR_PHPINI_ERROR_REPORTING}</label></div>
                     <div class="right">
                         <select name="phpini_error_reporting" id="phpini_error_reporting">
@@ -239,39 +239,39 @@
                         </select>
                     </div>
                 </div>
-                <div class="odd">
+                <div class="even">
                     <div class="left"><label for="phpini_post_max_size">{TR_PHPINI_POST_MAX_SIZE}</label></div>
                     <div class="right">
                         <input name="phpini_post_max_size" id="phpini_post_max_size" type="text" value="{PHPINI_POST_MAX_SIZE}"/> {TR_MIB}
                     </div>
                 </div>
-                <div class="even">
+                <div class="odd">
                     <div class="left"><label for="phpini_upload_max_filesize">{TR_PHPINI_UPLOAD_MAX_FILESIZE}</label>
                     </div>
                     <div class="right">
                         <input name="phpini_upload_max_filesize" id="phpini_upload_max_filesize" type="text" value="{PHPINI_UPLOAD_MAX_FILESIZE}"/> {TR_MIB}
                     </div>
                 </div>
-                <div class="odd">
+                <div class="even">
                     <div class="left"><label for="phpini_max_execution_time">{TR_PHPINI_MAX_EXECUTION_TIME}</label>
                     </div>
                     <div class="right">
                         <input name="phpini_max_execution_time" id="phpini_max_execution_time" type="text" value="{PHPINI_MAX_EXECUTION_TIME}"/> {TR_SEC}
                     </div>
                 </div>
-                <div class="even">
+                <div class="odd">
                     <div class="left"><label for="phpini_max_input_time">{TR_PHPINI_MAX_INPUT_TIME}</label></div>
                     <div class="right">
                         <input name="phpini_max_input_time" id="phpini_max_input_time" type="text" value="{PHPINI_MAX_INPUT_TIME}"/> {TR_SEC}
                     </div>
                 </div>
-                <div class="odd">
+                <div class="even">
                     <div class="left"><label for="phpini_memory_limit">{TR_PHPINI_MEMORY_LIMIT}</label></div>
                     <div class="right">
                         <input name="phpini_memory_limit" id="phpini_memory_limit" type="text" value="{PHPINI_MEMORY_LIMIT}"/> {TR_MIB}
                     </div>
                 </div>
-                <div class="even">
+                <div class="odd">
                     <div class="left">
                         <label for="phpini_open_basedir">{TR_PHPINI_OPEN_BASEDIR}</label>
                         <span class="icon i_help" title={TR_PHPINI_OPEN_BASEDIR_TOOLTIP}>{TR_HELP}</span>

@@ -117,6 +117,7 @@
     # SECTION fastcgi BEGIN.
     <IfModule fastcgi_module>
         ScriptAlias /php5/ {PHP_STARTER_DIR}/{FCGID_NAME}/
+        php_flag log_errors {LOG_ERRORS}
         <Directory "{PHP_STARTER_DIR}/{FCGID_NAME}">
             AllowOverride None
             Options +ExecCGI -MultiViews -Indexes

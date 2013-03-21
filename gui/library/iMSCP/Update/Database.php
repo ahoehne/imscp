@@ -1841,9 +1841,9 @@ class iMSCP_Update_Database extends iMSCP_Update
 	protected function _databaseUpdate_123()
 	{
 		return array(
-			"ALTER IGNORE TABLE  `php_ini` ADD  `log_errors` VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`;",
-			"ALTER IGNORE TABLE  `domain` ADD  `phpini_perm_log_errors` VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`;",
-			"ALTER IGNORE TABLE  `reseller_props` ADD  `php_ini_al_log_errors` VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`;",
+			#"ALTER  TABLE  `php_ini` ADD  `log_errors` VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`;",
+			#"ALTER  TABLE  `domain` ADD  `phpini_perm_log_errors` VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`;",
+			#"ALTER  TABLE  `reseller_props` ADD  `php_ini_al_log_errors` VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`;",
 			"INSERT IGNORE INTO  `imscp`.`config` ( " .
 			"`name` , `value` " .
 			") VALUES ( " .

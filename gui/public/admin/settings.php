@@ -89,6 +89,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 	$log_level = defined($_POST['log_level']) ? constant($_POST['log_level']) : false;
 	$ordersExpireTime = clean_input($_POST['ordersExpireTime']);
 	$phpini->setData('phpiniAllowUrlFopen', clean_input($_POST['phpini_allow_url_fopen']));
+	$phpini->setData('phpiniLogErrors', clean_input($_POST['phpini_log_errors']));
 	$phpini->setData('phpiniDisplayErrors', clean_input($_POST['phpini_display_errors']));
 	$phpini->setData('phpiniErrorReporting', clean_input($_POST['phpini_error_reporting']));
 	$phpini->setData('phpiniPostMaxSize', clean_input($_POST['phpini_post_max_size']));
@@ -172,6 +173,7 @@ if (isset($_POST['uaction']) && $_POST['uaction'] == 'apply') {
 		$db_cfg->MAX_SUBDNAMES_LABELS = $max_subdnames_labels;
 		$db_cfg->ORDERS_EXPIRE_TIME = $ordersExpireTime * 86400;
 		$db_cfg->PHPINI_ALLOW_URL_FOPEN = $phpini->getDataVal('phpiniAllowUrlFopen');
+		$db_cfg->PHPINI_LOG_ERRORS = $phpini->getDataVal('phpiniLogErrors');
 		$db_cfg->PHPINI_DISPLAY_ERRORS = $phpini->getDataVal('phpiniDisplayErrors');
 		$db_cfg->PHPINI_ERROR_REPORTING = $phpini->getDataVal('phpiniErrorReporting');
 		$db_cfg->PHPINI_POST_MAX_SIZE = $phpini->getDataVal('phpiniPostMaxSize');
@@ -450,6 +452,18 @@ if ($phpini->getDataVal('phpiniAllowUrlFopen') == 'on') {
 			 'PHPINI_ALLOW_URL_FOPEN_OFF' => $html_selected));
 }
 
+if ($phpini->getDataVal('phpiniLogErrors') == 'on') {
+	$tpl->assign(
+		array(
+			 'PHPINI_LOG_ERRORS_ON' => $html_selected,
+			 'PHPINI_LOG_ERRORS_OFF' => ''));
+} else {
+	$tpl->assign(
+		array(
+			 'PHPINI_LOG_ERRORS_ON' => '',
+			 'PHPINI_LOG_ERRORS_OFF' => $html_selected));
+}
+
 if ($phpini->getDataVal('phpiniDisplayErrors') == 'on') {
 	$tpl->assign(
 		array(
@@ -623,6 +637,7 @@ $tpl->assign(
 		 'TR_MAX_SUBDNAMES_LABELS' => tr('Maximum number of labels for subdomains'),
 		 'TR_PHPINI_BASE_SETTINGS' => tr('PHP Settings (system default)'),
 		 'TR_PHPINI_ALLOW_URL_FOPEN' => tr('Value for the %s directive', true, '<b>allow_url_fopen</b>'),
+		 'TR_PHPINI_LOG_ERRORS' => tr('Value for the %s directive', true, '<b>log_errors</b>'),
 		 'TR_PHPINI_DISPLAY_ERRORS' => tr('Value for the %s directive', true, '<b>display_errors</b>'),
 		 'TR_PHPINI_ERROR_REPORTING' => tr('Value for the %s directive', true, '<b>error_reporting</b>'),
 		 'TR_PHPINI_ERROR_REPORTING_DEFAULT' => tr('Show all errors, except for notices and coding standards warnings (Default)'),

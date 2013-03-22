@@ -254,6 +254,17 @@
 									</td>
 								</tr>
 								<tr>
+									<td>{TR_PHP_INI_AL_LOG_ERRORS}<span class="permission_help icon i_help" title="{TR_PHP_INI_PERMISSION_HELP}">{TR_HELP}</span></td>
+									<td>
+										<div class="ui-buttonset">
+											<input type="radio" name="php_ini_al_log_errors" id="php_ini_al_log_errors_yes" value="yes" {PHP_INI_AL_LOG_ERRORS_YES}/>
+											<label for="php_ini_al_log_errors_yes">{TR_YES}</label>
+											<input type="radio" name="php_ini_al_log_errors" id="php_ini_al_log_errors_no" value="no" {PHP_INI_AL_LOG_ERRORS_NO}/>
+											<label for="php_ini_al_log_errors_no">{TR_NO}</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
 									<td>{TR_PHP_INI_AL_DISPLAY_ERRORS}<span class="permission_help icon i_help" title="{TR_PHP_INI_PERMISSION_HELP}">{TR_HELP}</span></td>
 									<td>
 										<div class="ui-buttonset">

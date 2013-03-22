@@ -160,6 +160,16 @@ if ($phpini->getClPermVal('phpiniAllowUrlFopen') == 'no') {
 	$firstBlock = true;
 }
 
+// log_errors directive
+if ($phpini->getClPermVal('phpiniLogErrors') == 'no') {
+	$tplVars['LOG_ERRORS_BLOCK'] = '';
+} else {
+	$tplVars['TR_LOG_ERRORS'] = 'log_errors';
+	$tplVars['LOG_ERRORS_ON'] = ($phpini->getDataVal('phpiniLogErrors') == 'on') ? $htmlSelected : '';
+	$tplVars['LOG_ERRORS_OFF'] = ($phpini->getDataVal('phpiniLogErrors') == 'off') ? $htmlSelected : '';
+	$firstBlock = true;
+}
+
 // display_errors directive
 if ($phpini->getClPermVal('phpiniDisplayErrors') == 'no') {
 	$tplVars['DISPLAY_ERRORS_BLOCK'] = '';

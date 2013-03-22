@@ -35,6 +35,19 @@
 						</td>
 					</tr>
 					<!-- EDP: allow_url_fopen_block -->
+					<!-- BDP: log_errors_block -->
+					<tr>
+						<td>
+							<label for="log_errors">{TR_LOG_ERRORS}</label>
+						</td>
+						<td>
+							<select name="log_errors" id="log_errors">
+								<option value="off"{LOG_ERRORS_OFF}>{TR_VALUE_OFF}</option>
+								<option value="on"{LOG_ERRORS_ON}>{TR_VALUE_ON}</option>
+							</select>
+						</td>
+					</tr>
+					<!-- EDP: log_errors_block -->
 					<!-- BDP: display_errors_block -->
 					<tr>
 						<td>

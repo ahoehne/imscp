@@ -1830,4 +1830,36 @@ class iMSCP_Update_Database extends iMSCP_Update
 			"UPDATE `subdomain_alias` SET `subdomain_alias_url_forward` = 'no' WHERE `subdomain_alias_url_forward` IS NULL OR `subdomain_alias_url_forward` = ''"
 		);
 	}
+
+
+	/**
+	 * Update for PHP Ini Setting - Log_Errors
+	 *
+	 * @author Andreas Hoehne <info@webdesign-hoehne.de>
+	 * @return array SQL Queries to execute
+	 */
+	protected function _databaseUpdate_123()
+	{
+		$sqlUpd[] = $this->_addColumn(
+			'php_ini',
+			'log_errors',
+			"VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`"
+		);
+		$sqlUpd[] = $this->_addColumn(
+			'domain',
+			'phpini_perm_log_errors',
+			"VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`"
+		);
+		$sqlUpd[] = $this->_addColumn(
+			'reseller_props',
+			'php_ini_al_log_errors',
+			"VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`"
+		);
+		$sqlUpd[] = "INSERT IGNORE INTO  `imscp`.`config` ( " .
+			"`name` , `value` " .
+			") VALUES ( " .
+			"'PHPINI_LOG_ERRORS',  'off' " .
+			");";
+		return $sqlUpd;
+	}
 }

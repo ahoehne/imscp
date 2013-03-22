@@ -340,6 +340,9 @@ sub buildHTTPDData
 		ERROR_REPORTING => (exists $phpiniData->{$self->{'domain_id'}})
 			? $phpiniData->{$self->{'domain_id'}}->{'error_reporting'}
 			: $rdata->{'PHPINI_ERROR_REPORTING'}->{'value'},
+		LOG_ERRORS => (exists $phpiniData->{$self->{'domain_id'}})
+			? $phpiniData->{$self->{'domain_id'}}->{'log_errors'}
+			: $rdata->{'PHPINI_LOG_ERRORS'}->{'value'},
 		DISPLAY_ERRORS => (exists $phpiniData->{$self->{'domain_id'}})
 			? $phpiniData->{$self->{'domain_id'}}->{'display_errors'}
 			: $rdata->{'PHPINI_DISPLAY_ERRORS'}->{'value'},

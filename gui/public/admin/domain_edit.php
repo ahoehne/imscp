@@ -438,6 +438,24 @@ function _admin_generateFeaturesForm($tpl, &$data)
 			$permissionsBlock = true;
 		}
 
+		if (!$phpEditor->checkRePerm('phpiniLogErrors')) {
+			$tplVars['PHP_EDITOR_LOG_ERRORS_BLOCK'] = '';
+		} else {
+			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
+			$tplVars['LOG_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
+			$tplVars['LOG_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
+			$permissionsBlock = true;
+		}
+
+		if (!$phpEditor->checkRePerm('phpiniLogErrors')) {
+			$tplVars['PHP_EDITOR_LOG_ERRORS_BLOCK'] = '';
+		} else {
+			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
+			$tplVars['LOG_ERRORS_YES'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
+			$tplVars['Log_ERRORS_NO'] = ($phpEditor->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
+			$permissionsBlock = true;
+		}
+
 		if (!$phpEditor->checkRePerm('phpiniDisplayErrors')) {
 			$tplVars['PHP_EDITOR_DISPLAY_ERRORS_BLOCK'] = '';
 		} else {
@@ -694,6 +712,10 @@ function admin_checkAndUpdateData($domainId, $recoveryMode = false)
 					$phpEditor->setClPerm('phpiniAllowUrlFopen', clean_input($_POST['phpini_perm_allow_url_fopen']));
 				}
 
+				if ($phpEditor->checkRePerm('phpiniLogErrors') && isset($_POST['phpini_perm_log_errors'])) {
+					$phpEditor->setClPerm('phpiniLogErrors', clean_input($_POST['phpini_perm_log_errors']));
+				}
+
 				if ($phpEditor->checkRePerm('phpiniDisplayErrors') && isset($_POST['phpini_perm_display_errors'])) {
 					$phpEditor->setClPerm('phpiniDisplayErrors', clean_input($_POST['phpini_perm_display_errors']));
 				}
@@ -859,7 +881,9 @@ function admin_checkAndUpdateData($domainId, $recoveryMode = false)
 					`domain_subd_limit` = ?, `domain_disk_limit` = ?, `domain_php` = ?, `domain_cgi` = ?,
 					`allowbackup` = ?, `domain_dns` = ?,  `domain_software_allowed` = ?,
 					`phpini_perm_system` = ?, `phpini_perm_allow_url_fopen` = ?,
-					`phpini_perm_display_errors` = ?, `phpini_perm_disable_functions` = ?,
+					`phpini_perm_log_errors` = ?, " .
+					"`phpini_perm_display_errors` = ?," .
+					"`phpini_perm_disable_functions` = ?,
 					`domain_external_mail` = ?
 				WHERE
 					`domain_id` = ?
@@ -876,6 +900,7 @@ function admin_checkAndUpdateData($domainId, $recoveryMode = false)
 					$data['allowbackup'], $data['domain_dns'],
 					$data['domain_software_allowed'], $phpEditor->getClPermVal('phpiniSystem'),
 					$phpEditor->getClPermVal('phpiniAllowUrlFopen'),
+					$phpEditor->getClPermVal('phpiniLogErrors'),
 					$phpEditor->getClPermVal('phpiniDisplayErrors'),
 					$phpEditor->getClPermVal('phpiniDisableFunctions'),
 					$data['domain_external_mail'],
@@ -1019,6 +1044,7 @@ $tpl->define_dynamic(
 		 'php_editor_block' => 'php_block',
 		 'php_editor_permissions_block' => 'php_editor_block',
 		 'php_editor_allow_url_fopen_block' => 'php_editor_permissions_block',
+		 'php_editor_log_errors_block' => 'php_editor_permissions_block',
 		 'php_editor_display_errors_block' => 'php_editor_permissions_block',
 		 'php_editor_disable_functions_block' => 'php_editor_permissions_block',
 		 'php_editor_default_values_block' => 'php_directives_editor_block',

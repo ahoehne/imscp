@@ -202,6 +202,19 @@
                                 </td>
                             </tr>
                             <!-- EDP: php_editor_allow_url_fopen_block -->
+                            <!-- BDP: php_editor_log_errors_block -->
+                            <tr>
+                                <td>{TR_CAN_EDIT_LOG_ERRORS}</td>
+                                <td>
+                                    <div class="radio">
+                                        <input type="radio" name="phpini_perm_log_errors" id="phpiniLogErrorsYes" value="yes"{LOG_ERRORS_YES}{DISABLED}/>
+                                        <label for="phpiniLogErrorsYes">{TR_YES}</label>
+                                        <input type="radio" name="phpini_perm_log_errors" id="phpiniLogErrorsNo" value="no"{LOG_ERRORS_NO}{DISABLED}/>
+                                        <label for="phpiniLogErrorsNo">{TR_NO}</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- EDP: php_editor_log_errors_block -->
                             <!-- BDP: php_editor_display_errors_block -->
                             <tr>
                                 <td>{TR_CAN_EDIT_DISPLAY_ERRORS}</td>

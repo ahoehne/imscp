@@ -98,6 +98,7 @@ function &admin_getData()
 				'php_ini_system' => 'no',
 				'php_ini_al_disable_functions' => $phpEditor->getRePermVal('phpiniDisableFunctions'),
 				'php_ini_al_allow_url_fopen' => $phpEditor->getRePermVal('phpiniAllowUrlFopen'),
+				'php_ini_al_log_errors' => $phpEditor->getRePermVal('phpiniLogErrors'),
 				'php_ini_al_display_errors' => $phpEditor->getRePermVal('phpiniDisplayErrors'),
 				'php_ini_max_post_max_size' => $phpEditor->getRePermVal('phpiniPostMaxSize'),
 				'php_ini_max_upload_max_filesize' => $phpEditor->getRePermVal('phpiniUploadMaxFileSize'),
@@ -254,6 +255,9 @@ function _admin_generateFeaturesForm($tpl, &$data)
 			'PHP_INI_AL_ALLOW_URL_FOPEN_NO' => ($data['php_ini_al_allow_url_fopen'] != 'yes') ? $htmlChecked : '',
 
 			'TR_PHP_INI_AL_LOG_ERRORS' => tr('Can edit the PHP %s directive', true, '<b>log_errors</b>'),
+			'PHP_INI_AL_LOG_ERRORS_YES' => ($data['php_ini_al_log_errors'] == 'yes') ? $htmlChecked : '',
+			'PHP_INI_AL_LOG_ERRORS_NO' => ($data['php_ini_al_log_errors'] != 'yes') ? $htmlChecked : '',
+
 			'TR_PHP_INI_AL_DISPLAY_ERRORS' => tr('Can edit the PHP %s directive', true, '<b>display_errors</b>'),
 			'PHP_INI_AL_DISPLAY_ERRORS_YES' => ($data['php_ini_al_display_errors'] == 'yes') ? $htmlChecked : '',
 			'PHP_INI_AL_DISPLAY_ERRORS_NO' => ($data['php_ini_al_display_errors'] != 'yes') ? $htmlChecked : '',
@@ -532,6 +536,7 @@ function admin_checkAndCreateResellerAccount()
 			}
 
 			$phpEditor->setRePerm('phpiniAllowUrlFopen', $data['php_ini_al_allow_url_fopen']);
+			$phpEditor->setRePerm('phpiniLogErrors', $data['php_ini_al_log_errors']);
 			$phpEditor->setRePerm('phpiniDisplayErrors', $data['php_ini_al_display_errors']);
 
 			// Check for max values
@@ -587,11 +592,23 @@ function admin_checkAndCreateResellerAccount()
 					`max_disk_amnt`, `current_disk_amnt`, `support_system`, `customer_id`,
 					`software_allowed`, `softwaredepot_allowed`, `websoftwaredepot_allowed`,
 					`php_ini_system`, `php_ini_al_disable_functions`, `php_ini_al_allow_url_fopen`,
-					`php_ini_al_display_errors`, `php_ini_max_post_max_size`,
+					`php_ini_al_log_errors`, " .
+					"`php_ini_al_display_errors`, `php_ini_max_post_max_size`,
 					`php_ini_max_upload_max_filesize`, `php_ini_max_max_execution_time`,
 					`php_ini_max_max_input_time`, `php_ini_max_memory_limit`
 				) VALUES (
-					?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+					?, ?, ?, ?, " .
+					"?, ?, ?, ?, " .
+					"?, ?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, ?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, " .
+					"?, ?, " .
+					"?, ?, " .
+					"?, ?
 				)
 			";
 			exec_query($query, array(
@@ -602,6 +619,7 @@ function admin_checkAndCreateResellerAccount()
 									$data['customer_id'], $data['software_allowed'], $data['softwaredepot_allowed'],
 									$data['websoftwaredepot_allowed'], $phpEditor->getRePermVal('phpiniSystem'),
 									$phpEditor->getRePermVal('phpiniDisableFunctions'), $phpEditor->getRePermVal('phpiniAllowUrlFopen'),
+									$phpEditor->getRePermVal('phpiniLogErrors'),
 									$phpEditor->getRePermVal('phpiniDisplayErrors'), $phpEditor->getRePermVal('phpiniPostMaxSize'),
 									$phpEditor->getRePermVal('phpiniUploadMaxFileSize'), $phpEditor->getRePermVal('phpiniMaxExecutionTime'),
 									$phpEditor->getRePermVal('phpiniMaxInputTime'), $phpEditor->getRePermVal('phpiniMemoryLimit')));

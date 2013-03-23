@@ -130,6 +130,7 @@ function &admin_getData($resellerId, $forUpdate = false)
 					'max_traff_amnt', 'max_disk_amnt', 'software_allowed', 'softwaredepot_allowed',
 					'websoftwaredepot_allowed', 'support_system', 'customer_id',
 					'php_ini_system', 'php_ini_al_disable_functions', 'php_ini_al_allow_url_fopen',
+					'php_ini_al_log_errors',
 					'php_ini_al_display_errors', 'php_ini_max_post_max_size',
 					'php_ini_max_upload_max_filesize', 'php_ini_max_max_execution_time',
 					'php_ini_max_max_input_time', 'php_ini_max_memory_limit'
@@ -299,6 +300,9 @@ function _admin_generateFeaturesForm($tpl, &$data)
 			'PHP_INI_AL_ALLOW_URL_FOPEN_NO' => ($data['php_ini_al_allow_url_fopen'] != 'yes') ? $htmlChecked : '',
 
 			'TR_PHP_INI_AL_LOG_ERRORS' => tr('Can edit the PHP %s directive', true, '<b>log_errors</b>'),
+			'PHP_INI_AL_LOG_ERRORS_YES' => ($data['php_ini_al_log_errors'] == 'yes') ? $htmlChecked : '',
+			'PHP_INI_AL_LOG_ERRORS_NO' => ($data['php_ini_al_log_errors'] != 'yes') ? $htmlChecked : '',
+
 			'TR_PHP_INI_AL_DISPLAY_ERRORS' => tr('Can edit the PHP %s directive', true, '<b>display_errors</b>'),
 			'PHP_INI_AL_DISPLAY_ERRORS_YES' => ($data['php_ini_al_display_errors'] == 'yes') ? $htmlChecked : '',
 			'PHP_INI_AL_DISPLAY_ERRORS_NO' => ($data['php_ini_al_display_errors'] != 'yes') ? $htmlChecked : '',
@@ -638,6 +642,10 @@ function admin_checkAndUpdateData($resellerId)
 				$phpEditor->setRePerm('phpiniAllowUrlFopen', $data['fallback_php_ini_al_allow_url_fopen']);
 			}
 
+			if (!$phpEditor->setRePerm('phpiniLogErrors', $data['php_ini_al_log_errors'])) {
+				$phpEditor->setRePerm('phpiniLogErrors', $data['fallback_php_ini_al_log_errors']);
+			}
+
 			if (!$phpEditor->setRePerm('phpiniDisplayErrors', $data['php_ini_al_display_errors'])) {
 				$phpEditor->setRePerm('phpiniDisplayErrors', $data['fallback_php_ini_al_display_errors']);
 			}
@@ -708,7 +716,9 @@ function admin_checkAndUpdateData($resellerId)
 					`max_sql_db_cnt` = ?, `max_sql_user_cnt` = ?, `max_traff_amnt` = ?, `max_disk_amnt` = ?,
 					`reseller_ips` = ?, `customer_id` = ?, `software_allowed` = ?, `softwaredepot_allowed` = ?,
 					`websoftwaredepot_allowed` = ?, `support_system` = ?, `php_ini_system` = ?,
-					`php_ini_al_disable_functions` = ?, `php_ini_al_allow_url_fopen` = ?, `php_ini_al_display_errors` = ?,
+					`php_ini_al_disable_functions` = ?, `php_ini_al_allow_url_fopen` = ?, ' .
+					'`php_ini_al_log_errors` = ?, ' .
+					'`php_ini_al_display_errors` = ?,
 					`php_ini_max_post_max_size` = ?, `php_ini_max_upload_max_filesize` = ?, `php_ini_max_max_execution_time` = ?,
 					`php_ini_max_max_input_time` = ?, `php_ini_max_memory_limit` = ?
 				WHERE
@@ -726,6 +736,7 @@ function admin_checkAndUpdateData($resellerId)
 					$phpEditor->getRePermVal('phpiniSystem'),
 					$phpEditor->getRePermVal('phpiniDisableFunctions'),
 					$phpEditor->getRePermVal('phpiniAllowUrlFopen'),
+					$phpEditor->getRePermVal('phpiniLogErrors'),
 					$phpEditor->getRePermVal('phpiniDisplayErrors'),
 					$phpEditor->getRePermVal('phpiniPostMaxSize'),
 					$phpEditor->getRePermVal('phpiniUploadMaxFileSize'),

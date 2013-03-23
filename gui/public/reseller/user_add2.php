@@ -219,6 +219,7 @@ function get_hp_data($hpid, $resellerId, $phpini)
 			$hp_php, $hp_cgi, $hp_sub, $hp_als, $hp_mail, $hp_ftp, $hp_sql_db,
 			$hp_sql_user, $hp_traff, $hp_disk, $hp_backup, $hp_dns, $hp_allowsoftware,
 			$phpini_system, $phpini_al_allow_url_fopen,
+			$phpini_al_log_errors,
 			$phpini_al_display_errors, $phpini_al_disable_functions, $phpini_post_max_size,
 			$phpini_upload_max_filesize, $phpini_max_execution_time, $phpini_max_input_time,
 			$phpini_memory_limit, $hp_ext_mail
@@ -229,6 +230,7 @@ function get_hp_data($hpid, $resellerId, $phpini)
 		// Write into phpini object
 		$phpini->setClPerm('phpiniSystem', $phpini_system);
 		$phpini->setClPerm('phpiniAllowUrlFopen', $phpini_al_allow_url_fopen);
+		$phpini->setClPerm('phpiniLogErrors', $phpini_al_log_errors);
 		$phpini->setClPerm('phpiniDisplayErrors', $phpini_al_display_errors);
 		$phpini->setClPerm('phpiniDisableFunctions', $phpini_al_disable_functions);
 
@@ -329,6 +331,10 @@ function check_user_data($phpini)
 
 		if ($phpini->checkRePerm('phpiniAllowUrlFopen') && isset($_POST['phpini_perm_allow_url_fopen'])) {
 			$phpini->setClPerm('phpiniAllowUrlFopen', clean_input($_POST['phpini_perm_allow_url_fopen']));
+		}
+
+		if ($phpini->checkRePerm('phpiniLogErrors') && isset($_POST['phpini_perm_log_errors'])) {
+			$phpini->setClPerm('phpiniLogErrors', clean_input($_POST['phpini_perm_log_errors']));
 		}
 
 		if ($phpini->checkRePerm('phpiniDisplayErrors') && isset($_POST['phpini_perm_display_errors'])) {
@@ -490,6 +496,7 @@ $tpl->define_dynamic(
 		'php_editor_block' => 'page',
 		'php_editor_permissions_block' => 'php_editor_block',
 		'php_editor_allow_url_fopen_block' => 'php_editor_permissions_block',
+		'php_editor_log_errors_block' => 'php_editor_permissions_block',
 		'php_editor_display_errors_block' => 'php_editor_permissions_block',
 		'php_editor_disable_functions_block' => 'php_editor_permissions_block',
 		'php_editor_default_values_block' => 'php_editor_block'));
@@ -549,6 +556,7 @@ if (isset($_POST['uaction']) && ('user_add2_nxt' == $_POST['uaction']) &&
 								  "$hp_disk;$hp_backup;$hp_dns;$hp_allowsoftware;" .
 								  $phpini->getClPermVal('phpiniSystem') . ';' .
 								  $phpini->getClPermVal('phpiniAllowUrlFopen') . ';' .
+								  $phpini->getClPermVal('phpiniLogErrors') . ';' .
 								  $phpini->getClPermVal('phpiniDisplayErrors') . ';' .
 								  $phpini->getClPermVal('phpiniDisableFunctions') . ';' .
 								  $phpini->getDataVal('phpiniPostMaxSize') . ";" .

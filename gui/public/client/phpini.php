@@ -59,6 +59,10 @@ if (!empty($_POST)) { // Post request
 			$phpini->setData('phpiniAllowUrlFopen', clean_input($_POST['allow_url_fopen']));
 		}
 
+		if (isset($_POST['log_errors']) && $phpini->getClPermVal('phpiniLogErrors') == 'yes') {
+			$phpini->setData('phpiniLogErrors', clean_input($_POST['log_errors']));
+		}
+
 		if (isset($_POST['display_errors']) && $phpini->getClPermVal('phpiniDisplayErrors') == 'yes') {
 			$phpini->setData('phpiniDisplayErrors', clean_input($_POST['display_errors']));
 		}

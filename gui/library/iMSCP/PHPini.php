@@ -444,7 +444,8 @@ class iMSCP_PHPini
 				$query,
 				array(
 					$this->_cfg->ITEM_CHANGE_STATUS, $this->_phpiniData['phpiniDisableFunctions'],
-					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniLogErrors'],
+					$this->_phpiniData['phpiniAllowUrlFopen'],
+					$this->_phpiniData['phpiniLogErrors'],
 					$this->_phpiniData['phpiniDisplayErrors'],
 					$this->_phpiniData['phpiniErrorReporting'], $this->_phpiniData['phpiniPostMaxSize'],
 					$this->_phpiniData['phpiniUploadMaxFileSize'], $this->_phpiniData['phpiniMaxExecutionTime'],
@@ -452,21 +453,24 @@ class iMSCP_PHPini
 				)
 			);
 		} else {
-			$query = "
-				INSERT INTO
-					`php_ini` (
-						`status`, `disable_functions`, `allow_url_fopen`, `log_errors`, `display_errors`, `error_reporting`,
-						`post_max_size`, `upload_max_filesize`, `max_execution_time`, `max_input_time`, `memory_limit`,
-						`domain_id`
-				 ) VALUES (
-					?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-				)
-			";
+			$query = "INSERT INTO " .
+				"`php_ini` ( " .
+					"`status`, `disable_functions`, `allow_url_fopen`, " .
+					"`log_errors`, `display_errors`, `error_reporting`, " .
+					"`post_max_size`, `upload_max_filesize`, `max_execution_time`, " .
+					"`max_input_time`, `memory_limit`, `domain_id` " .
+				") VALUES ( " .
+					"?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, ?, ?, " .
+					"?, ?, ? " .
+				")";
 			exec_query(
 				$query,
 				array(
 					$this->_cfg->ITEM_ADD_STATUS, $this->_phpiniData['phpiniDisableFunctions'],
-					$this->_phpiniData['phpiniAllowUrlFopen'], $this->_phpiniData['phpiniLogErrors'],
+					$this->_phpiniData['phpiniAllowUrlFopen'],
+					$this->_phpiniData['phpiniLogErrors'],
 					$this->_phpiniData['phpiniDisplayErrors'],
 					$this->_phpiniData['phpiniErrorReporting'], $this->_phpiniData['phpiniPostMaxSize'],
 					$this->_phpiniData['phpiniUploadMaxFileSize'], $this->_phpiniData['phpiniMaxExecutionTime'],
@@ -515,7 +519,9 @@ class iMSCP_PHPini
 			UPDATE
 				`domain`
 			SET
-				`phpini_perm_system` = ?, `phpini_perm_allow_url_fopen` = ?, `phpini_perm_log_errors` = ?, `phpini_perm_display_errors` = ?,
+				`phpini_perm_system` = ?, `phpini_perm_allow_url_fopen` = ?, " .
+				"`phpini_perm_log_errors` = ?, " .
+				"`phpini_perm_display_errors` = ?,
 				`phpini_perm_disable_functions` = ?
 			WHERE
 				`domain_id` = ?
@@ -671,7 +677,9 @@ class iMSCP_PHPini
 	{
 		$query = "
 			SELECT
-				`phpini_perm_system`, `phpini_perm_allow_url_fopen`, `phpini_perm_log_errors`, `phpini_perm_display_errors`,
+				`phpini_perm_system`, `phpini_perm_allow_url_fopen`, " .
+				"`phpini_perm_log_errors`, " .
+				"`phpini_perm_display_errors`,
 				`phpini_perm_disable_functions`
 			FROM
 				`domain`

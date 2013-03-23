@@ -83,6 +83,15 @@ function _generatePhpBlock($tpl, $phpini)
 			$permissionsBlock = true;
 		}
 
+		if (!$phpini->checkRePerm('phpiniLogErrors')) {
+			$tplVars['PHP_EDITOR_LOG_ERRORS_BLOCK'] = '';
+		} else {
+			$tplVars['TR_CAN_EDIT_LOG_ERRORS'] = tr('Can edit the PHP %s directive', true, '<b>log_errors</b>');
+			$tplVars['LOG_ERRORS_YES'] = ($phpini->getClPermVal('phpiniLogErrors') == 'yes') ? $htmlChecked : '';
+			$tplVars['LOG_ERRORS_NO'] = ($phpini->getClPermVal('phpiniLogErrors') == 'no') ? $htmlChecked : '';
+			$permissionsBlock = true;
+		}
+
 		if (!$phpini->checkRePerm('phpiniDisplayErrors')) {
 			$tplVars['PHP_EDITOR_DISPLAY_ERRORS_BLOCK'] = '';
 		} else {
@@ -191,13 +200,17 @@ function generateForm($tpl, $hpid, $resellerId, $phpini)
 
 	list(
 		$hpPhp, $hpCgi, $hpSub, $hpAls, $hpMail, $hpFtp, $hpSqlDb, $hpSqlUsers, $hpTraffic, $hpDiskspace, $hpBackup,
-		$hpDns, $hpSoftwaresInstaller, $phpiniSystem, $phpAllowUrlFopenPerm, $phpDisplayErrorsPerm, $phpDisableFunctionsPerm,
+		$hpDns, $hpSoftwaresInstaller, $phpiniSystem, $phpAllowUrlFopenPerm,
+		$phpLogErrorsPerm,
+		$phpDisplayErrorsPerm,
+		$phpDisableFunctionsPerm,
 		$phpPostMaxSizeValue, $phpUploadMaxFilesizeValue, $phpMaxExecutionTimeValue, $phpMaxInputTimeValue,
 		$phpMemoryLimitValue, $hpExtMail
 	) = array_pad(explode(';', $props), 24, 'no');
 
 	$phpini->setClPerm('phpiniSystem', $phpiniSystem);
 	$phpini->setClPerm('phpiniAllowUrlFopen', $phpAllowUrlFopenPerm);
+	$phpini->setClPerm('phpiniLogErrors', $phpLogErrorsPerm);
 	$phpini->setClPerm('phpiniDisplayErrors', $phpDisplayErrorsPerm);
 	$phpini->setClPerm('phpiniDisableFunctions', $phpDisableFunctionsPerm);
 
@@ -470,6 +483,10 @@ function checkInputData($phpini)
 			$phpini->setClPerm('phpiniAllowUrlFopen', clean_input($_POST['phpini_perm_allow_url_fopen']));
 		}
 
+		if ($phpini->checkRePerm('phpiniLogErrors') && isset($_POST['phpini_perm_log_errors'])) {
+			$phpini->setClPerm('phpiniLogErrors', clean_input($_POST['phpini_perm_log_errors']));
+		}
+
 		if ($phpini->checkRePerm('phpiniDisplayErrors') && isset($_POST['phpini_perm_display_errors'])) {
 			$phpini->setClPerm('phpiniDisplayErrors', clean_input($_POST['phpini_perm_display_errors']));
 		}
@@ -554,7 +571,9 @@ function saveData($phpini)
 	$hpProps = "$hpPhp;$hpCgi;$hpSub;$hpAls;$hpMail;$hpFtp;$hpSqlDb;$hpSqlUsers;$hpTraffic;$hpDiskspace;$hpBackup;";
 	$hpProps.= "$hpDns;$hpSoftwaresInstaller";
 	$hpProps .= ';' . $phpini->getClPermVal('phpiniSystem') . ';' . $phpini->getClPermVal('phpiniAllowUrlFopen');
-	$hpProps .= ';' . $phpini->getClPermVal('phpiniDisplayErrors') . ';' . $phpini->getClPermVal('phpiniDisableFunctions');
+	$hpProps .= ';' . $phpini->getClPermVal('phpiniLogErrors');
+	$hpProps .= ';' . $phpini->getClPermVal('phpiniDisplayErrors');
+	$hpProps .=	';' . $phpini->getClPermVal('phpiniDisableFunctions');
 	$hpProps .= ';' . $phpini->getDataVal('phpiniPostMaxSize') . ';' . $phpini->getDataVal('phpiniUploadMaxFileSize');
 	$hpProps .= ';' . $phpini->getDataVal('phpiniMaxExecutionTime') . ';' . $phpini->getDataVal('phpiniMaxInputTime');
 	$hpProps .= ';' . $phpini->getDataVal('phpiniMemoryLimit') . ';' . $hpExtMail;
@@ -613,6 +632,7 @@ $tpl->define_dynamic(
 		'php_editor_block' => 'page',
 		'php_editor_permissions_block' => 'php_editor_block',
 		'php_editor_allow_url_fopen_block' => 'php_editor_permissions_block',
+		'php_editor_log_errors_block' => 'php_editor_permissions_block',
 		'php_editor_display_errors_block' => 'php_editor_permissions_block',
 		'php_editor_disable_functions_block' => 'php_editor_permissions_block',
 		'php_editor_default_values_block' => 'php_editor_block',

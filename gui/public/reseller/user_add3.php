@@ -175,6 +175,7 @@ function add_user_data($reseller_id)
 	list(
 		$php, $cgi, $sub, $als, $mail, $ftp, $sql_db, $sql_user, $traff, $disk,
 		$backup, $dns, $software_allowed, $phpini_system, $phpini_al_allow_url_fopen,
+		$phpini_al_log_errors,
 		$phpini_al_display_errors, $phpini_al_disable_functions, $phpini_post_max_size,
 		$phpini_upload_max_filesize, $phpini_max_execution_time,
 		$phpini_max_input_time, $phpini_memory_limit, $external_mail
@@ -239,28 +240,36 @@ function add_user_data($reseller_id)
 
 	$record_id = $db->insertId();
 
-	$query = "
-		INSERT INTO
-		    `domain` (
-			    `domain_name`, `domain_admin_id`, `domain_created_id`, `domain_created`,
-			    `domain_expires`, `domain_mailacc_limit`, `domain_ftpacc_limit`,
-			    `domain_traffic_limit`, `domain_sqld_limit`, `domain_sqlu_limit`,
-			    `domain_status`, `domain_subd_limit`, `domain_alias_limit`,
-			    `domain_ip_id`, `domain_disk_limit`, `domain_disk_usage`,
-			    `domain_php`, `domain_cgi`, `allowbackup`, `domain_dns`,
-			    `domain_software_allowed`, `phpini_perm_system`, `phpini_perm_allow_url_fopen`,
-				`phpini_perm_display_errors`, `phpini_perm_disable_functions`, `domain_external_mail`
-            ) VALUES (
-                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
-            )
-	";
+	$query = "INSERT INTO" .
+			"`domain` (" .
+				"`domain_name`, `domain_admin_id`, `domain_created_id`, `domain_created`, " .
+			    "`domain_expires`, `domain_mailacc_limit`, `domain_ftpacc_limit`, " .
+			    "`domain_traffic_limit`, `domain_sqld_limit`, `domain_sqlu_limit`, " .
+			    "`domain_status`, `domain_subd_limit`, `domain_alias_limit`, " .
+			    "`domain_ip_id`, `domain_disk_limit`, `domain_disk_usage`, " .
+			    "`domain_php`, `domain_cgi`, `allowbackup`, `domain_dns`, " .
+			    "`domain_software_allowed`, `phpini_perm_system`, `phpini_perm_allow_url_fopen`, " .
+			    "`phpini_perm_log_errors`, " .
+				"`phpini_perm_display_errors`, `phpini_perm_disable_functions`, `domain_external_mail` " .
+			") VALUES ( " .
+				"?, ?, ?, ?, " .
+                "?, ?, ?, " .
+                "?, ?, ?, " .
+                "?, ?, ?, " .
+                "?, ?, ?, " .
+                "?, ?, ?, ?, " .
+                "?, ?, ?, " .
+                "?, " .
+                "?, ?, ? " .
+			")";
 
 	exec_query($query, array($dmn_name, $record_id, $reseller_id, time(), $dmn_expire,
-							$mail, $ftp, $traff, $sql_db, $sql_user,
-							$cfg->ITEM_ADD_STATUS, $sub, $als, $domain_ip, $disk, 0,
-							$php, $cgi, $backup, $dns, $software_allowed,
-							$phpini_system, $phpini_al_allow_url_fopen,
-							$phpini_al_display_errors, $phpini_al_disable_functions, $external_mail));
+		$mail, $ftp, $traff, $sql_db, $sql_user,
+		$cfg->ITEM_ADD_STATUS, $sub, $als, $domain_ip, $disk, 0,
+		$php, $cgi, $backup, $dns, $software_allowed,
+		$phpini_system, $phpini_al_allow_url_fopen,
+		$phpini_al_log_errors,
+		$phpini_al_display_errors, $phpini_al_disable_functions, $external_mail));
 
 
 	$dmn_id = $db->insertId();

@@ -737,6 +737,7 @@ function customerHasFeature($featureNames, $forceReload = false)
 			'php' => ($dmnProps['domain_php'] == 'yes') ? true : false,
 			'php_editor' => ($dmnProps['phpini_perm_system'] == 'yes' &&
 							 ($dmnProps['phpini_perm_allow_url_fopen'] == 'yes'
+							  || $dmnProps['phpini_perm_log_errors'] == 'yes'
 							  || $dmnProps['phpini_perm_display_errors'] == 'yes'
 							  || in_array($dmnProps['phpini_perm_disable_functions'], array('yes', 'exec')))) ? true : false,
 			'cgi' => ($dmnProps['domain_cgi'] == 'yes') ? true : false,

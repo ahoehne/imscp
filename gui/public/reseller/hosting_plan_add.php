@@ -512,15 +512,29 @@ function saveData($resellerId, $phpini)
 		set_page_message(tr('An hosting plan with same name already exists.'), 'error');
 		return false;
 	} else {
-		$hpProps = "$hpPhp;$hpCgi;$hpSub;$hpAls;$hpMail;$hpFtp;$hpSqlDb;$hpSqlUsers;$hpTraffic;$hpDiskspace;$hpBackup;";
-		$hpProps .= "$hpDns;$hpSoftwaresInstaller";
-		$hpProps .= ';' . $phpini->getClPermVal('phpiniSystem') . ';' . $phpini->getClPermVal('phpiniAllowUrlFopen');
-		$hpProps .= ';' . $phpini->getClPermVal('phpiniLogErrors');
-		$hpProps .= ';' . $phpini->getClPermVal('phpiniDisplayErrors');
-		$hpProps .= ';' . $phpini->getClPermVal('phpiniDisableFunctions');
-		$hpProps .= ';' . $phpini->getDataVal('phpiniPostMaxSize') . ';' . $phpini->getDataVal('phpiniUploadMaxFileSize');
-		$hpProps .= ';' . $phpini->getDataVal('phpiniMaxExecutionTime') . ';' . $phpini->getDataVal('phpiniMaxInputTime');
-		$hpProps .= ';' . $phpini->getDataVal('phpiniMemoryLimit') . ';' . $hpExtMail;
+		$hpProps = "$hpPhp"; // 1
+		$hpProps .= ";$hpCgi"; // 2
+		$hpProps .= ";$hpSub"; // 3
+		$hpProps .= ";$hpAls"; // 4
+		$hpProps .= ";$hpMail"; // 5
+		$hpProps .= ";$hpFtp"; // 6
+		$hpProps .= ";$hpSqlDb"; // 7
+		$hpProps .= ";$hpSqlUsers"; // 8
+		$hpProps .= ";$hpTraffic;"; // 9
+		$hpProps .= "$hpDiskspace;"; // 10
+		$hpProps .= "$hpBackup;"; // 11
+		$hpProps .= "$hpDns;$hpSoftwaresInstaller"; // 12
+		$hpProps .= ';' . $phpini->getClPermVal('phpiniSystem'); // 13
+		$hpProps .= ';' . $phpini->getClPermVal('phpiniAllowUrlFopen'); // 14
+		$hpProps .= ';' . $phpini->getClPermVal('phpiniLogErrors'); // 15
+		$hpProps .= ';' . $phpini->getClPermVal('phpiniDisplayErrors'); // 16
+		$hpProps .= ';' . $phpini->getClPermVal('phpiniDisableFunctions'); // 17
+		$hpProps .= ';' . $phpini->getDataVal('phpiniPostMaxSize');
+		$hpProps .= ';' . $phpini->getDataVal('phpiniUploadMaxFileSize');
+		$hpProps .= ';' . $phpini->getDataVal('phpiniMaxExecutionTime');
+		$hpProps .= ';' . $phpini->getDataVal('phpiniMaxInputTime');
+		$hpProps .= ';' . $phpini->getDataVal('phpiniMemoryLimit');
+		$hpProps .= ';' . $hpExtMail;
 
 		if (reseller_limits_check($resellerId, $hpProps)) {
 			$query = "

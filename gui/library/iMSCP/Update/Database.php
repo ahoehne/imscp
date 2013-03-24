@@ -1862,4 +1862,45 @@ class iMSCP_Update_Database extends iMSCP_Update
 			");";
 		return $sqlUpd;
 	}
+
+	/**
+	 * Update for PHP Ini Setting - Log_Errors Props
+	 *
+	 * @author Andreas Hoehne <info@webdesign-hoehne.de>
+	 * @return array SQL Queries to execute
+	 */
+	protected function _databaseUpdate_124()
+	{
+		$query = "SELECT " .
+					"`id`, `props` " .
+				"FROM " .
+					"`hosting_plan`;";
+		$stmt = execute_query($query);
+		$updates = 0;
+		if ($stmt->rowCount() != 0) {
+			while (!$stmt->EOF) {
+				$props_split = array();
+				$props_split = preg_split('/;/', $stmt->fields['props']);
+				$c = 0; $newprops = '';
+				foreach($props_split as $tmp){
+					$c++;
+					if ($c ==15){
+						$newprops .= ';no';
+					}
+					if ($c != 1){
+						$newprops .= ';';
+					}
+					$newprops .= $tmp;
+				}
+				$sqlUpd[] = "UPDATE `hosting_plan` " .
+						"SET `props` = '".$newprops."' " .
+						"WHERE `id` = '".$stmt->fields['id']."';";
+				$updates++;
+			}
+		}
+		if ($updates != 0){
+			// Database Revision should be set without return
+			return $sqlUpd;
+		}
+	}
 }

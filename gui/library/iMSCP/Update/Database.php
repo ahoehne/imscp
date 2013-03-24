@@ -1840,44 +1840,36 @@ class iMSCP_Update_Database extends iMSCP_Update
 	 */
 	protected function _databaseUpdate_123()
 	{
+		# Updating php_ini Table
 		$sqlUpd[] = $this->_addColumn(
 			'php_ini',
 			'log_errors',
 			"VARCHAR( 10 ) NOT NULL AFTER  `allow_url_fopen`"
 		);
+		# Updating domain Table
 		$sqlUpd[] = $this->_addColumn(
 			'domain',
 			'phpini_perm_log_errors',
 			"VARCHAR( 20 ) NOT NULL DEFAULT  'no' AFTER  `phpini_perm_allow_url_fopen`"
 		);
+		# Updating reseller_props Table
 		$sqlUpd[] = $this->_addColumn(
 			'reseller_props',
 			'php_ini_al_log_errors',
 			"VARCHAR( 15 ) NOT NULL DEFAULT  'no' AFTER  `php_ini_al_allow_url_fopen`"
 		);
+		# Updating config Table
 		$sqlUpd[] = "INSERT IGNORE INTO  `imscp`.`config` ( " .
 			"`name` , `value` " .
 			") VALUES ( " .
 			"'PHPINI_LOG_ERRORS',  'off' " .
 			");";
-		return $sqlUpd;
-	}
-
-	/**
-	 * Update for PHP Ini Setting - Log_Errors Props
-	 *
-	 * @author Andreas Hoehne <info@webdesign-hoehne.de>
-	 * @return array SQL Queries to execute
-	 */
-
-	protected function _databaseUpdate_124()
-	{
+		# Updating hosting_plans Table Start
 		$query = "SELECT " .
 					"`id`, `props` " .
 				"FROM " .
 					"`hosting_plans`;";
 		$stmt = execute_query($query);
-		$updates = 0;
 		if ($stmt->rowCount() != 0) {
 			while (!$stmt->EOF) {
 				$props_split = array();
@@ -1896,14 +1888,11 @@ class iMSCP_Update_Database extends iMSCP_Update
 				$sqlUpd[] = "UPDATE `hosting_plans` " .
 						"SET `props` = '".$newprops."' " .
 						"WHERE `id` = '".$stmt->fields['id']."';";
-				$updates++;
 				$stmt->moveNext();
 			}
 		}
-		if ($updates != 0){
-			// Database Revision should be set without return
-			return $sqlUpd;
-		}
+		# Updating hosting_plans Table End
+		# returning entire update
 		return $sqlUpd;
 	}
 }

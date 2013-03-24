@@ -129,6 +129,7 @@ $tpl->define_dynamic(
 		 'php_editor_first_block_js' => 'page',
 		 'php_editor_first_block' =>  'page',
 		 'allow_url_fopen_block' => 'php_editor_first_block',
+		 'log_errors_block' => 'php_editor_first_block',
 		 'display_errors_block' => 'php_editor_first_block',
 		 'error_reporting_block' => 'php_editor_first_block',
 		 'disable_functions_block' => 'php_editor_first_block',

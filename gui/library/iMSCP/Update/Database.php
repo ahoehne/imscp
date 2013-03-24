@@ -1869,7 +1869,7 @@ class iMSCP_Update_Database extends iMSCP_Update
 	 * @author Andreas Hoehne <info@webdesign-hoehne.de>
 	 * @return array SQL Queries to execute
 	 */
-	 /**
+
 	protected function _databaseUpdate_124()
 	{
 		$query = "SELECT " .
@@ -1897,6 +1897,7 @@ class iMSCP_Update_Database extends iMSCP_Update
 						"SET `props` = '".$newprops."' " .
 						"WHERE `id` = '".$stmt->fields['id']."';";
 				$updates++;
+				$stmt->moveNext();
 			}
 		}
 		if ($updates != 0){
@@ -1905,5 +1906,4 @@ class iMSCP_Update_Database extends iMSCP_Update
 		}
 		return $sqlUpd;
 	}
-		*/
 }

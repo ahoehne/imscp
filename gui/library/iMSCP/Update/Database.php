@@ -1874,7 +1874,7 @@ class iMSCP_Update_Database extends iMSCP_Update
 		$query = "SELECT " .
 					"`id`, `props` " .
 				"FROM " .
-					"`hosting_plan`;";
+					"`hosting_plans`;";
 		$stmt = execute_query($query);
 		$updates = 0;
 		if ($stmt->rowCount() != 0) {
@@ -1892,7 +1892,7 @@ class iMSCP_Update_Database extends iMSCP_Update
 					}
 					$newprops .= $tmp;
 				}
-				$sqlUpd[] = "UPDATE `hosting_plan` " .
+				$sqlUpd[] = "UPDATE `hosting_plans` " .
 						"SET `props` = '".$newprops."' " .
 						"WHERE `id` = '".$stmt->fields['id']."';";
 				$updates++;

@@ -1877,7 +1877,8 @@ class iMSCP_Update_Database extends iMSCP_Update
 				$c = 0; $newprops = '';
 				foreach($props_split as $tmp){
 					$c++;
-					if ($c ==15){
+					if ($c == 16){
+						// Update props and insert after phpiniAllowUrlFopen
 						$newprops .= ';no';
 					}
 					if ($c != 1){

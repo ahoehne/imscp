@@ -1902,5 +1902,6 @@ class iMSCP_Update_Database extends iMSCP_Update
 			// Database Revision should be set without return
 			return $sqlUpd;
 		}
+		return $sqlUpd;
 	}
 }
